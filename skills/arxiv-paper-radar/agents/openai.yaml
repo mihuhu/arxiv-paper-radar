@@ -1,0 +1,4 @@
+interface:
+  display_name: "arXiv 论文雷达"
+  short_description: "部署本地 arXiv 雷达，整理中文论文简报并同步到 Obsidian 候选库"
+  default_prompt: "使用 $arxiv-paper-radar 在这台电脑部署论文雷达，选择我的 Obsidian 库，并检查近期相关论文。"

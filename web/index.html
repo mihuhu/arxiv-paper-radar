@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>论文雷达 · Paper Radar</title>
+  <link rel="stylesheet" href="/style.css?v=20261012-page-scroll">
+  <script src="/app.js?v=20261012-scroll" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到论文列表</a>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="论文导航">
+      <a class="brand" href="/" aria-label="论文雷达首页"><span class="brand-mark" aria-hidden="true">◉</span><span>论文雷达<small>PAPER RADAR</small></span></a>
+      <div class="library-label">我的研究订阅 <span>05</span></div>
+      <nav id="topic-nav" aria-label="研究方向"><button class="topic-button active" data-topic="" aria-pressed="true">全部方向</button></nav>
+      <div class="sidebar-note"><span class="note-symbol" aria-hidden="true">↗</span><p>从发现到阅读<small>筛选 arXiv 候选，整理进你的 Obsidian 文献库。</small></p></div>
+      <div class="sidebar-bottom"><button id="settings-button" class="subtle-button">⚙ <span>文献库设置</span></button><span class="local-badge"><i id="connection-dot"></i><span id="connection-label">正在连接</span></span></div>
+    </aside>
+
+    <div class="workspace">
+      <header class="topbar"><span class="breadcrumb">研究工作台 <span aria-hidden="true">/</span> <strong id="breadcrumb-current">候选论文</strong></span><div class="topbar-actions"><button id="logs-button" class="text-button" aria-controls="activity-panel" aria-expanded="false">任务与日志</button><button id="reports-button" class="text-button" aria-controls="reports-panel" aria-expanded="false">每日简报</button><button id="fetch-button" class="button primary">＋ 抓取论文</button></div></header>
+      <main id="main" tabindex="-1">
+        <div class="page-heading"><div><p class="eyebrow">RESEARCH, WITH INTENTION</p><h1 id="page-title">发现值得阅读的论文</h1><p id="page-description" class="lead">关注模型与智能体安全，把线索沉淀为知识。</p></div><div class="date-stamp"><span id="today-label"></span><small>持续积累 · 审慎筛选</small></div></div>
+        <div id="notice" class="notice" role="status" hidden></div>
+        <section id="activity-panel" class="panel activity-panel" aria-label="抓取任务与日志" hidden><div class="section-title"><h2>任务与日志</h2><button id="refresh-logs" class="text-button">刷新日志</button></div><div id="task-status" class="task-status"><p id="task-message">暂无正在运行的任务</p><button id="cancel-button" class="button small danger" hidden>取消任务</button></div><progress id="task-progress" max="100" value="0" hidden aria-label="任务进度"></progress><div id="logs-list" class="logs-list" role="log" aria-live="off"></div></section>
+        <section id="reports-panel" class="panel reports-panel" aria-label="每日论文简报" hidden><div class="section-title"><h2>每日简报</h2><div class="report-actions"><button id="refresh-reports" class="text-button">刷新</button><button id="generate-report" class="button small">生成简报</button></div></div><p class="muted">汇总新发现的标题、摘要与作者单位。点击下载 Markdown 简报。</p><div id="reports-list" class="reports-list"></div></section>
+        <div class="summary-strip" aria-label="文献概览"><div><strong id="stat-total">—</strong><span>缓存论文</span></div><div><strong id="stat-new">—</strong><span>尚未入库</span></div><div><strong id="stat-imported">—</strong><span>已在文献库</span></div><p>规则分数帮助筛选<br><span>相关性仍由你判断</span></p></div>
+        <section class="paper-workspace" aria-label="论文候选">
+          <div class="list-area">
+            <div class="filter-bar"><label class="search-field"><span aria-hidden="true">⌕</span><span class="sr-only">搜索标题、作者或摘要</span><input id="search-input" type="search" placeholder="搜索标题、作者或摘要" autocomplete="off"></label><label class="score-filter">最低分 <input id="score-input" type="number" min="0" max="100" value="0" aria-label="最低规则匹配分数"></label></div>
+            <div class="list-toolbar"><div class="filter-tabs" role="group" aria-label="入库状态"><button data-show="all" class="filter-tab active" aria-pressed="true">全部</button><button data-show="new" class="filter-tab" aria-pressed="false">未入库</button><button data-show="imported" class="filter-tab" aria-pressed="false">已入库</button></div><span id="result-count" class="result-count" aria-live="polite">正在加载…</span></div>
+            <div class="selection-bar"><label class="select-all"><input id="select-all" type="checkbox">选择本页</label><span id="selection-count" aria-live="polite">已选 0 篇</span><button id="clear-selection" class="text-button" hidden>清空</button><button id="preview-button" class="button small primary" disabled>预览入库 →</button></div>
+            <div id="paper-list" class="paper-list" aria-busy="true" tabindex="0" aria-label="论文列表，可独立滚动"></div>
+            <div id="list-empty" class="empty-state" hidden><span class="empty-orbit" aria-hidden="true">◎</span><h2 id="empty-title">研究从一个问题开始</h2><p id="empty-description">选择关注的方向，抓取近期论文。每一条候选都保留原始来源。</p><button id="empty-fetch-button" class="button primary">开始抓取</button></div>
+          </div>
+          <aside id="paper-detail" class="detail-panel" aria-label="论文详情"><div id="detail-placeholder" class="detail-placeholder"><span aria-hidden="true">↗</span><h2>点击论文，打开详情</h2><p>点击左侧标题、摘要或“查看详情”，阅读完整中文摘要、作者单位与原始摘要。</p></div><div id="detail-content" hidden></div></aside>
+        </section>
+        <footer class="page-footer"><span>来源：arXiv · 单位信息保留核实状态</span><span>你的研究，留在本地。</span></footer>
+      </main>
+    </div>
+  </div>
+
+  <dialog id="fetch-dialog" class="modal"><form id="fetch-form"><div class="modal-heading"><div><p class="eyebrow">A NEW SEARCH</p><h2>抓取论文</h2></div><button type="button" class="icon-button" data-close="fetch-dialog" aria-label="关闭抓取窗口">×</button></div><p class="muted">选择研究方向和范围。结果会保留在本地候选列表中。</p><fieldset class="topic-fieldset"><legend>研究方向</legend><div id="fetch-topics" class="fetch-topics"></div></fieldset><div class="form-grid"><label>最近天数<input id="fetch-days" type="number" min="1" max="3650" value="30" required><small>按提交时间检索</small></label><label>每个方向预算<input id="fetch-budget" type="number" min="1" max="200" value="30" required><small>候选数量上限，非全量检索</small></label></div><fieldset class="topic-fieldset historical-dates"><legend>历史补抓 · 可选</legend><div class="form-grid"><label>开始日期<input id="fetch-start-date" type="date"></label><label>结束日期<input id="fetch-end-date" type="date"></label></div><p class="muted">填入完整起止日期时检索指定范围；留空则使用最近天数。</p></fieldset><label class="check-row"><input id="fetch-enrich" type="checkbox"><span>同时核实作者单位<small>读取可用的 arXiv 原文，可能需要更长时间。</small></span></label><p id="fetch-error" class="form-error" role="alert" hidden></p><div class="modal-actions"><button type="button" class="button" data-close="fetch-dialog">取消</button><button id="fetch-submit" class="button primary" type="submit">开始抓取</button></div></form></dialog>
+
+  <dialog id="settings-dialog" class="modal"><form id="settings-form"><div class="modal-heading"><div><p class="eyebrow">YOUR KNOWLEDGE BASE</p><h2>文献库设置</h2></div><button type="button" class="icon-button" data-close="settings-dialog" aria-label="关闭设置窗口">×</button></div><label class="field-label">Obsidian 文献库路径<input id="vault-path" type="text" placeholder="/Users/你的用户名/Obsidian/文献库" required autocomplete="off"></label><p class="muted">每次入库先预览写入计划，已有论文会显示重复状态。新增笔记默认归为参考论文。</p><p id="settings-error" class="form-error" role="alert" hidden></p><div class="modal-actions"><button type="button" class="button" data-close="settings-dialog">取消</button><button id="settings-submit" class="button primary" type="submit">保存设置</button></div></form></dialog>
+
+  <dialog id="classification-dialog" class="modal"><form id="classification-form"><div class="modal-heading"><div><p class="eyebrow">MAKE IT YOURS</p><h2>调整论文分类</h2></div><button type="button" class="icon-button" data-close="classification-dialog" aria-label="关闭分类窗口">×</button></div><p id="classification-title" class="classification-title"></p><fieldset class="topic-fieldset"><legend>研究方向 · 至少选择一个</legend><div id="classification-topics" class="fetch-topics"></div></fieldset><fieldset class="topic-fieldset"><legend>复用文献库关键词 · 最多四个</legend><div class="keyword-toolbar"><label class="search-field"><span aria-hidden="true">⌕</span><span class="sr-only">筛选文献库关键词</span><input id="keyword-search" type="search" placeholder="筛选关键词" autocomplete="off"></label><button id="clear-keywords" type="button" class="text-button">清空</button></div><p id="keyword-count" class="muted" aria-live="polite">已选 0 / 4</p><div id="classification-keywords" class="classification-keywords"></div></fieldset><p class="muted">仅调整当前候选的分类。已有笔记的正文和阅读状态保持原样。</p><p id="classification-error" class="form-error" role="alert" hidden></p><div class="modal-actions"><button type="button" class="button" data-close="classification-dialog">取消</button><button id="classification-submit" type="submit" class="button primary" disabled>保存分类</button></div></form></dialog>
+
+  <dialog id="preview-dialog" class="modal wide-modal"><div class="modal-heading"><div><p class="eyebrow">REVIEW BEFORE IMPORT</p><h2>确认入库计划</h2></div><button type="button" class="icon-button" data-close="preview-dialog" aria-label="关闭入库预览">×</button></div><label class="check-row queue-option"><input id="queue-input" type="checkbox"><span>加入阅读队列<small>关闭时归为参考论文；打开后标为待讨论。</small></span></label><p id="preview-vault" class="path-text"></p><div id="preview-warnings" class="preview-warnings"></div><div id="preview-items" class="preview-items"></div><div id="preview-files" hidden></div><p id="preview-error" class="form-error" role="alert" hidden></p><div id="import-results" class="import-results" aria-live="polite" hidden></div><div class="modal-actions"><button type="button" class="button" data-close="preview-dialog">关闭</button><button id="import-button" class="button primary" disabled>确认入库</button></div></dialog>
+</body>
+</html>
